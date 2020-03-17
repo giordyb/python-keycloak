@@ -37,14 +37,22 @@ URL_ADMIN_USERS = "admin/realms/{realm-name}/users"
 URL_ADMIN_USERS_COUNT = "admin/realms/{realm-name}/users/count"
 URL_ADMIN_USER = "admin/realms/{realm-name}/users/{id}"
 URL_ADMIN_USER_CONSENTS = "admin/realms/{realm-name}/users/{id}/consents"
+URL_ADMIN_USER_FEDERATED_IDENTITIES = "admin/realms/{realm-name}/users/{id}/federated-identity"
+URL_ADMIN_USER_FEDERATED_IDENTITY = "admin/realms/{realm-name}/users/{id}/federated-identity/{provider}"
+
+
 URL_ADMIN_SEND_UPDATE_ACCOUNT = "admin/realms/{realm-name}/users/{id}/execute-actions-email"
 URL_ADMIN_SEND_VERIFY_EMAIL = "admin/realms/{realm-name}/users/{id}/send-verify-email"
 URL_ADMIN_RESET_PASSWORD = "admin/realms/{realm-name}/users/{id}/reset-password"
 URL_ADMIN_GET_SESSIONS = "admin/realms/{realm-name}/users/{id}/sessions"
 URL_ADMIN_USER_CLIENT_ROLES = "admin/realms/{realm-name}/users/{id}/role-mappings/clients/{client-id}"
 URL_ADMIN_USER_REALM_ROLES = "admin/realms/{realm-name}/users/{id}/role-mappings/realm"
-URL_ADMIN_USER_CLIENT_ROLES_AVAILABLE = "admin/realms/{realm-name}/users/{id}/role-mappings/clients/{client-id}/available"
-URL_ADMIN_USER_CLIENT_ROLES_COMPOSITE = "admin/realms/{realm-name}/users/{id}/role-mappings/clients/{client-id}/composite"
+URL_ADMIN_USER_CLIENT_ROLES_AVAILABLE = (
+    "admin/realms/{realm-name}/users/{id}/role-mappings/clients/{client-id}/available"
+)
+URL_ADMIN_USER_CLIENT_ROLES_COMPOSITE = (
+    "admin/realms/{realm-name}/users/{id}/role-mappings/clients/{client-id}/composite"
+)
 URL_ADMIN_USER_GROUP = "admin/realms/{realm-name}/users/{id}/groups/{group-id}"
 URL_ADMIN_USER_GROUPS = "admin/realms/{realm-name}/users/{id}/groups"
 URL_ADMIN_USER_PASSWORD = "admin/realms/{realm-name}/users/{id}/reset-password"
@@ -60,7 +68,7 @@ URL_ADMIN_GROUP_MEMBERS = "admin/realms/{realm-name}/groups/{id}/members"
 
 URL_ADMIN_CLIENTS = "admin/realms/{realm-name}/clients"
 URL_ADMIN_CLIENT = URL_ADMIN_CLIENTS + "/{id}"
-URL_ADMIN_CLIENT_SECRETS= URL_ADMIN_CLIENT + "/client-secret"
+URL_ADMIN_CLIENT_SECRETS = URL_ADMIN_CLIENT + "/client-secret"
 URL_ADMIN_CLIENT_ROLES = URL_ADMIN_CLIENT + "/roles"
 URL_ADMIN_CLIENT_ROLE = URL_ADMIN_CLIENT + "/roles/{role-name}"
 URL_ADMIN_CLIENT_AUTHZ_SETTINGS = URL_ADMIN_CLIENT + "/authz/resource-server/settings"
@@ -77,3 +85,4 @@ URL_ADMIN_IDPS = "admin/realms/{realm-name}/identity-provider/instances"
 
 URL_ADMIN_FLOWS = "admin/realms/{realm-name}/authentication/flows"
 URL_ADMIN_FLOWS_EXECUTIONS = "admin/realms/{realm-name}/authentication/flows/{flow-alias}/executions"
+
