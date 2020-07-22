@@ -28,12 +28,14 @@ import json
 from builtins import isinstance
 from typing import List, Iterable
 
-from keycloak.urls_patterns import URL_ADMIN_GROUPS_REALM_ROLES, \
-    URL_ADMIN_GET_GROUPS_REALM_ROLES, URL_ADMIN_REALM_ROLES_ROLE_BY_NAME
+from keycloak.urls_patterns import (
+    URL_ADMIN_GROUPS_REALM_ROLES,
+    URL_ADMIN_GET_GROUPS_REALM_ROLES,
+    URL_ADMIN_REALM_ROLES_ROLE_BY_NAME,
+)
 from .connection import ConnectionManager
 from .exceptions import raise_error_from_response, KeycloakGetError
 from .keycloak_openid import KeycloakOpenID
-<<<<<<< HEAD
 from .urls_patterns import (
     URL_ADMIN_SERVER_INFO,
     URL_ADMIN_CLIENT_AUTHZ_RESOURCES,
@@ -43,8 +45,6 @@ from .urls_patterns import (
     URL_ADMIN_SEND_UPDATE_ACCOUNT,
     URL_ADMIN_USER_CLIENT_ROLES_COMPOSITE,
     URL_ADMIN_USER_GROUP,
-    URL_ADMIN_USER_FEDERATED_IDENTITIES,
-    URL_ADMIN_USER_FEDERATED_IDENTITY,
     URL_ADMIN_REALM_ROLES,
     URL_ADMIN_GROUP_CHILD,
     URL_ADMIN_USER_CONSENTS,
@@ -73,19 +73,11 @@ from .urls_patterns import (
     URL_ADMIN_CLIENT_SCOPE,
     URL_ADMIN_CLIENT_SECRETS,
     URL_ADMIN_USER_REALM_ROLES,
+    URL_ADMIN_REALM,
+    URL_ADMIN_COMPONENTS,
+    URL_ADMIN_COMPONENT,
+    URL_ADMIN_KEYS,
 )
-=======
-from .urls_patterns import URL_ADMIN_SERVER_INFO, URL_ADMIN_CLIENT_AUTHZ_RESOURCES, URL_ADMIN_CLIENT_ROLES, \
-    URL_ADMIN_GET_SESSIONS, URL_ADMIN_RESET_PASSWORD, URL_ADMIN_SEND_UPDATE_ACCOUNT, \
-    URL_ADMIN_USER_CLIENT_ROLES_COMPOSITE, URL_ADMIN_USER_GROUP, URL_ADMIN_REALM_ROLES, URL_ADMIN_GROUP_CHILD, \
-    URL_ADMIN_USER_CONSENTS, URL_ADMIN_SEND_VERIFY_EMAIL, URL_ADMIN_CLIENT, URL_ADMIN_USER, URL_ADMIN_CLIENT_ROLE, \
-    URL_ADMIN_USER_GROUPS, URL_ADMIN_CLIENTS, URL_ADMIN_FLOWS_EXECUTIONS, URL_ADMIN_GROUPS, URL_ADMIN_USER_CLIENT_ROLES, \
-    URL_ADMIN_REALMS, URL_ADMIN_USERS_COUNT, URL_ADMIN_FLOWS, URL_ADMIN_GROUP, URL_ADMIN_CLIENT_AUTHZ_SETTINGS, \
-    URL_ADMIN_GROUP_MEMBERS, URL_ADMIN_USER_STORAGE, URL_ADMIN_GROUP_PERMISSIONS, URL_ADMIN_IDPS, \
-    URL_ADMIN_USER_CLIENT_ROLES_AVAILABLE, URL_ADMIN_USERS, URL_ADMIN_CLIENT_SCOPES, \
-    URL_ADMIN_CLIENT_SCOPES_ADD_MAPPER, URL_ADMIN_CLIENT_SCOPE, URL_ADMIN_CLIENT_SECRETS, \
-    URL_ADMIN_USER_REALM_ROLES, URL_ADMIN_REALM, URL_ADMIN_COMPONENTS, URL_ADMIN_COMPONENT, URL_ADMIN_KEYS 
->>>>>>> 3273ea9f001442b3ff081bcfddcf25c3767085bf
 
 
 class KeycloakAdmin:
@@ -105,12 +97,11 @@ class KeycloakAdmin:
     _custom_headers = None
     _user_realm_name = None
 
-<<<<<<< HEAD
     def __init__(
         self,
         server_url,
-        username,
-        password,
+        username=None,
+        password=None,
         realm_name="master",
         client_id="admin-cli",
         verify=True,
@@ -119,10 +110,6 @@ class KeycloakAdmin:
         user_realm_name=None,
         auto_refresh_token=None,
     ):
-=======
-    def __init__(self, server_url, username=None, password=None, realm_name='master', client_id='admin-cli', verify=True,
-                 client_secret_key=None, custom_headers=None, user_realm_name=None, auto_refresh_token=None):
->>>>>>> 3273ea9f001442b3ff081bcfddcf25c3767085bf
         """
 
         :param server_url: Keycloak server url
@@ -321,8 +308,6 @@ class KeycloakAdmin:
         data_raw = self.raw_post(URL_ADMIN_REALMS, data=json.dumps(payload))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=201, skip_exists=skip_exists)
 
-<<<<<<< HEAD
-=======
     def update_realm(self, realm_name, payload):
         """
         Update a realm. This wil only update top level attributes and will ignore any user,
@@ -337,8 +322,7 @@ class KeycloakAdmin:
         """
 
         params_path = {"realm-name": realm_name}
-        data_raw = self.raw_put(URL_ADMIN_REALM.format(**params_path),
-                                data=json.dumps(payload))
+        data_raw = self.raw_put(URL_ADMIN_REALM.format(**params_path), data=json.dumps(payload))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
 
     def delete_realm(self, realm_name):
@@ -353,7 +337,6 @@ class KeycloakAdmin:
         data_raw = self.raw_delete(URL_ADMIN_REALM.format(**params_path))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
 
->>>>>>> 3273ea9f001442b3ff081bcfddcf25c3767085bf
     def get_users(self, query=None):
         """
         Return a list of users, filtered according to query parameters
@@ -887,12 +870,7 @@ class KeycloakAdmin:
         :return: Http response
         """
         params_path = {"realm-name": self.realm_name, "id": client_id}
-<<<<<<< HEAD
-        data_raw = self.connection.raw_put(URL_ADMIN_CLIENT.format(**params_path), data=json.dumps(payload))
-=======
-        data_raw = self.raw_put(URL_ADMIN_CLIENT.format(**params_path),
-                                           data=json.dumps(payload))
->>>>>>> 3273ea9f001442b3ff081bcfddcf25c3767085bf
+        data_raw = self.raw_put(URL_ADMIN_CLIENT.format(**params_path), data=json.dumps(payload))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
 
     def delete_client(self, client_id):
@@ -1031,13 +1009,7 @@ class KeycloakAdmin:
         """
 
         params_path = {"realm-name": self.realm_name}
-<<<<<<< HEAD
-        data_raw = self.connection.raw_post(URL_ADMIN_REALM_ROLES.format(**params_path), data=json.dumps(payload))
-        return raise_error_from_response(data_raw, KeycloakGetError, expected_code=201, skip_exists=skip_exists)
-
-=======
-        data_raw = self.raw_post(URL_ADMIN_REALM_ROLES.format(**params_path),
-                                            data=json.dumps(payload))
+        data_raw = self.raw_post(URL_ADMIN_REALM_ROLES.format(**params_path), data=json.dumps(payload))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=201, skip_exists=skip_exists)
 
     def update_realm_role(self, role_name, payload):
@@ -1049,8 +1021,9 @@ class KeycloakAdmin:
         """
 
         params_path = {"realm-name": self.realm_name, "role-name": role_name}
-        data_raw = self.connection.raw_put(URL_ADMIN_REALM_ROLES_ROLE_BY_NAME.format(**params_path),
-                                            data=json.dumps(payload))
+        data_raw = self.connection.raw_put(
+            URL_ADMIN_REALM_ROLES_ROLE_BY_NAME.format(**params_path), data=json.dumps(payload)
+        )
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
 
     def delete_realm_role(self, role_name):
@@ -1061,11 +1034,9 @@ class KeycloakAdmin:
         """
 
         params_path = {"realm-name": self.realm_name, "role-name": role_name}
-        data_raw = self.connection.raw_delete(
-            URL_ADMIN_REALM_ROLES_ROLE_BY_NAME.format(**params_path))
+        data_raw = self.connection.raw_delete(URL_ADMIN_REALM_ROLES_ROLE_BY_NAME.format(**params_path))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
 
->>>>>>> 3273ea9f001442b3ff081bcfddcf25c3767085bf
     def assign_realm_roles(self, user_id, client_id, roles):
         """
         Assign realm roles to a user
@@ -1092,8 +1063,7 @@ class KeycloakAdmin:
 
         payload = roles if isinstance(roles, list) else [roles]
         params_path = {"realm-name": self.realm_name, "id": group_id}
-        data_raw = self.raw_post(URL_ADMIN_GROUPS_REALM_ROLES.format(**params_path),
-                                 data=json.dumps(payload))
+        data_raw = self.raw_post(URL_ADMIN_GROUPS_REALM_ROLES.format(**params_path), data=json.dumps(payload))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
 
     def delete_group_realm_roles(self, group_id, roles):
@@ -1107,8 +1077,7 @@ class KeycloakAdmin:
 
         payload = roles if isinstance(roles, list) else [roles]
         params_path = {"realm-name": self.realm_name, "id": group_id}
-        data_raw = self.raw_delete(URL_ADMIN_GROUPS_REALM_ROLES.format(**params_path),
-                                 data=json.dumps(payload))
+        data_raw = self.raw_delete(URL_ADMIN_GROUPS_REALM_ROLES.format(**params_path), data=json.dumps(payload))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
 
     def get_group_realm_roles(self, group_id):
@@ -1311,8 +1280,6 @@ class KeycloakAdmin:
         data_raw = self.raw_get(URL_ADMIN_CLIENT_SECRETS.format(**params_path))
         return raise_error_from_response(data_raw, KeycloakGetError)
 
-<<<<<<< HEAD
-=======
     def get_components(self, query=None):
         """
         Return a list of components, filtered according to query parameters
@@ -1324,8 +1291,7 @@ class KeycloakAdmin:
         :return: components list
         """
         params_path = {"realm-name": self.realm_name}
-        data_raw = self.raw_get(URL_ADMIN_COMPONENTS.format(**params_path),
-                                data=None, **query)
+        data_raw = self.raw_get(URL_ADMIN_COMPONENTS.format(**params_path), data=None, **query)
         return raise_error_from_response(data_raw, KeycloakGetError)
 
     def create_component(self, payload):
@@ -1341,8 +1307,7 @@ class KeycloakAdmin:
         """
         params_path = {"realm-name": self.realm_name}
 
-        data_raw = self.raw_post(URL_ADMIN_COMPONENTS.format(**params_path),
-                                 data=json.dumps(payload))
+        data_raw = self.raw_post(URL_ADMIN_COMPONENTS.format(**params_path), data=json.dumps(payload))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=201)
 
     def get_component(self, component_id):
@@ -1371,8 +1336,7 @@ class KeycloakAdmin:
         :return: Http response
         """
         params_path = {"realm-name": self.realm_name, "component-id": component_id}
-        data_raw = self.raw_put(URL_ADMIN_COMPONENT.format(**params_path),
-                                data=json.dumps(payload))
+        data_raw = self.raw_put(URL_ADMIN_COMPONENT.format(**params_path), data=json.dumps(payload))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
 
     def delete_component(self, component_id):
@@ -1397,11 +1361,9 @@ class KeycloakAdmin:
         :return: keys list
         """
         params_path = {"realm-name": self.realm_name}
-        data_raw = self.raw_get(URL_ADMIN_KEYS.format(**params_path),
-                                data=None)
+        data_raw = self.raw_get(URL_ADMIN_KEYS.format(**params_path), data=None)
         return raise_error_from_response(data_raw, KeycloakGetError)
 
->>>>>>> 3273ea9f001442b3ff081bcfddcf25c3767085bf
     def raw_get(self, *args, **kwargs):
         """
         Calls connection.raw_get.
